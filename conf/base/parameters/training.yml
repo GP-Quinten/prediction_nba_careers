@@ -1,0 +1,70 @@
+model_info:
+  classifier_name: ${classifier_name}
+  # XGB
+  hyperparameters:
+    alpha: 0.002737863174607964
+    booster: gbtree
+    colsample_bytree: 0.7
+    gamma: 0.08753019480040107
+    lambda: 0.04133736284473332
+    learning_rate: 0.05
+    max_depth: 3
+    n_estimators: 300
+    scale_pos_weight: 2
+  # LightGBM
+  # hyperparameters:
+  #   bagging_fraction: 1.0
+  #   bagging_freq: 1
+  #   boosting_type: gbdt
+  #   feature_fraction: 0.5
+  #   lambda_l1: 2.7747996620125305e-06
+  #   lambda_l2: 1.4069794029387229e-06
+  #   learning_rate: 0.25
+  #   min_child_samples: 5
+  #   num_leaves: 2
+  #   objective: binary
+  #   scale_pos_weight: 1
+  # CatBoost
+  # hyperparameters:
+  #   boosting_type: Ordered
+  #   bootstrap_type: Bayesian
+  #   colsample_bylevel: 0.032415936790019174
+  #   depth: 3
+  #   objective: CrossEntropy
+  # GradientBoosting
+  # hyperparameters:
+  #   ccp_alpha: 0.0
+  #   criterion: squared_error
+  #   learning_rate: 0.05
+  #   max_features: 0.1
+  #   min_samples_leaf: 2
+  #   min_weight_fraction_leaf: 0.0
+  #   n_estimators: 200
+  # RandomForest
+  # hyperparameters:
+  #   ccp_alpha: 0.0
+  #   class_weight: balanced_subsample
+  #   criterion: log_loss
+  #   max_depth: 3
+  #   max_features: 0.05
+  #   min_samples_leaf: 2
+  #   min_weight_fraction_leaf: 0.0
+  #   n_estimators: 400
+  # DecisionTree
+  # hyperparameters:
+  #   ccp_alpha: 0.0
+  #   class_weight: balanced
+  #   criterion: log_loss
+  #   max_depth: 7
+  #   max_features: 0.7500000000000001
+  #   min_samples_leaf: 6
+  #   min_weight_fraction_leaf: 0.1
+  # MLPClassifier
+  # hyperparameters:
+  #   activation: logistic
+  #   alpha: 1.1123729864284504e-05
+  #   hidden_layer_size_0: 17
+  #   learning_rate: constant
+  #   learning_rate_init: 0.0022733678036586766
+  #   max_iter: 500
+  #   n_hidden_layer: 1

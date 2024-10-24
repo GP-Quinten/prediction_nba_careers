@@ -1,0 +1,436 @@
+# This is a boilerplate parameters config generated for pipeline 'data_science'
+# using Kedro 0.18.4.
+#
+# Documentation for this file format can be found in "Parameters"
+# Link: https://kedro.readthedocs.io/en/0.18.4/kedro_project_setup/configuration.html#parameters
+
+optimization_framework: optuna
+optimization_storage_uri: "sqlite:///mlruns/optuna.db"
+
+hyperparameters_tuning_conf:  {
+    "goalMetric": "auprc",
+    "goalDirection": "maximize",
+    # StratifiedKFold is performed
+    "n_folds": 5,
+    "sampler": "optuna.samplers.TPESampler",
+    # "sampler": "optuna.samplers.CmaEsSampler",
+    # "sampler": "optuna.samplers.RandomSampler",
+    # "sampler": "optuna.samplers.GridSampler",
+    "pruner": "optuna.pruners.HyperbandPruner",
+    "maxTrials": 1000,
+    "timeout": 3600, # 1 hour
+    "ParallelJobs": 1,
+    # parameters configuration for a wide range of models - feel free to modify each parameterName configuration
+    "params": {
+        "xgboost.XGBClassifier": [
+            {
+                "parameterName": "n_estimators",
+                "type": "INTEGER",
+                "minValue": 100,
+                "maxValue": 400,
+                "step": 100
+            },
+            {
+                "parameterName": "max_depth",
+                "type": "INTEGER",
+                "minValue": 3,
+                "maxValue": 10
+            },
+            {
+                "parameterName": "learning_rate",
+                "type": "FLOAT",
+                "minValue": 0.05,
+                "maxValue": 0.3,
+                "step": 0.05,
+            },
+            # gbtree is very useful to compute SHAP values quickly unlike other boosters
+            {
+                "parameterName": "booster",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "gbtree",
+                    # "gblinear",
+                    # "dart"
+                ]
+            },
+            {
+                "parameterName": "colsample_bytree",
+                "type": "FLOAT",
+                "minValue": 0.3,
+                "maxValue": 1.0,
+                "step": 0.1
+            },
+            {
+                "parameterName": "scale_pos_weight",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "${population_ratio_demi}",
+                    "${population_ratio}",
+                    "${population_ratio_double}"
+                ]
+            },
+            {
+                "parameterName": "alpha",
+                "type": "FLOAT",
+                "minValue": 1e-5,
+                "maxValue": 1e1,
+                "log": True
+            },
+            {
+                "parameterName": "gamma",
+                "type": "FLOAT",
+                "minValue": 1e-5,
+                "maxValue": 1e1,
+                "log": True
+            },
+            {
+                "parameterName": "lambda",
+                "type": "FLOAT",
+                "minValue": 1e-5,
+                "maxValue": 1e1,
+                "log": True
+            }
+        ],
+        "lightgbm.LGBMClassifier": [
+            {
+                "parameterName": "objective",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "binary",
+                ]
+            },
+            {
+                "parameterName": "boosting_type",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "gbdt",
+                ]
+            },
+            {
+                "parameterName": "num_leaves",
+                "type": "INTEGER",
+                "minValue": 2,
+                "maxValue": 256
+            },
+            {
+                "parameterName": "learning_rate",
+                "type": "FLOAT",
+                "minValue": 0.05,
+                "maxValue": 0.3,
+                "step": 0.05,
+            },
+            {
+                "parameterName": "feature_fraction",
+                "type": "FLOAT",
+                "minValue": 0.4,
+                "maxValue": 1.0,
+                "step": 0.1
+            },
+            {
+                "parameterName": "bagging_fraction",
+                "type": "FLOAT",
+                "minValue": 0.4,
+                "maxValue": 1.0,
+                "step": 0.1
+            },
+            {
+                "parameterName": "bagging_freq",
+                "type": "INTEGER",
+                "minValue": 1,
+                "maxValue": 7,
+                "step": 1
+            },
+            {
+                "parameterName": "min_child_samples",
+                "type": "INTEGER",
+                "minValue": 5,
+                "maxValue": 100,
+                "step": 5
+            },
+            {
+                "parameterName": "scale_pos_weight",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "${population_ratio_demi}",
+                    "${population_ratio}",
+                    "${population_ratio_double}"
+                ]
+            },
+            {
+                "parameterName": "lambda_l1",
+                "type": "FLOAT",
+                "minValue": 1e-8,
+                "maxValue": 1e1,
+                "log": True
+            },
+            {
+                "parameterName": "lambda_l2",
+                "type": "FLOAT",
+                "minValue": 1e-8,
+                "maxValue": 1e1,
+                "log": True
+            },
+        ],
+        "catboost.CatBoostClassifier":[
+            {
+                "parameterName": "objective",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "Logloss",
+                    "CrossEntropy"
+                ]
+            },
+            {
+                "parameterName": "depth",
+                "type": "INTEGER",
+                "minValue": 3,
+                "maxValue": 10
+            },
+            {
+                "parameterName": "colsample_bylevel",
+                "type": "FLOAT",
+                "minValue": 0.01,
+                "maxValue": 0.1,
+                "log": True,
+            },
+            {
+                "parameterName": "boosting_type",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "Ordered", 
+                    "Plain"
+                ]
+            },
+            {
+                "parameterName": "bootstrap_type",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "Bayesian", 
+                    "Bernoulli", 
+                    "MVS"
+                ]
+            },
+        ],
+        "sklearn.ensemble.GradientBoostingClassifier": [
+            {
+                "parameterName": "n_estimators",
+                "type": "INTEGER",
+                "minValue": 100,
+                "maxValue": 400,
+                "step": 100
+            },
+            {
+                "parameterName": "learning_rate",
+                "type": "FLOAT",
+                "minValue": 0.05,
+                "maxValue": 0.3,
+                "step": 0.05,
+            },
+            {
+                "parameterName": "criterion",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "friedman_mse",
+                    "squared_error",
+                ]
+            },
+            {
+                "parameterName": "max_features",
+                "type": "FLOAT",
+                "minValue": 0.05,
+                "maxValue": 0.5,
+                "step": 0.05
+            },    
+            {
+                "parameterName": "ccp_alpha",
+                "type": "FLOAT",
+                "minValue": 0.0,
+                "maxValue": 5e-2,
+                "step": 5e-3
+            },
+            {
+                "parameterName": "min_weight_fraction_leaf",
+                "type": "FLOAT",
+                "minValue": 0.,
+                "maxValue": 0.1,
+                "step": 0.01
+            },   
+            {
+                "parameterName": "min_samples_leaf",
+                "type": "INTEGER",
+                "minValue": 1,
+                "maxValue": 10,
+                "step": 1
+            },  
+        ],
+        "sklearn.ensemble.RandomForestClassifier": [
+            {
+                "parameterName": "n_estimators",
+                "type": "INTEGER",
+                "minValue": 100,
+                "maxValue": 400,
+                "step": 100
+            },
+            {
+                "parameterName": "max_depth",
+                "type": "INTEGER",
+                "minValue": 3,
+                "maxValue": 10
+            },
+            {
+                "parameterName": "criterion",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "gini",
+                    "entropy",
+                    "log_loss"
+                ]
+            },
+            {
+                "parameterName": "class_weight",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "balanced",
+                    "balanced_subsample"
+                ]
+            },
+            {
+                "parameterName": "max_features",
+                "type": "FLOAT",
+                "minValue": 0.05,
+                "maxValue": 0.5,
+                "step": 0.05
+            },    
+            {
+                "parameterName": "ccp_alpha",
+                "type": "FLOAT",
+                "minValue": 0.0,
+                "maxValue": 5e-2,
+                "step": 5e-3
+            },
+            {
+                "parameterName": "min_weight_fraction_leaf",
+                "type": "FLOAT",
+                "minValue": 0.,
+                "maxValue": 0.1,
+                "step": 0.01
+            },   
+            {
+                "parameterName": "min_samples_leaf",
+                "type": "INTEGER",
+                "minValue": 1,
+                "maxValue": 10,
+                "step": 1
+            },           
+        ],
+        "sklearn.tree.DecisionTreeClassifier": [
+            {
+                "parameterName": "max_depth",
+                "type": "INTEGER",
+                "minValue": 3,
+                "maxValue": 10
+            },
+            {
+                "parameterName": "criterion",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "gini",
+                    "entropy",
+                    "log_loss"
+                ]
+            },
+            {
+                "parameterName": "class_weight",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "balanced"
+                ]
+            },
+            {
+                "parameterName": "max_features",
+                "type": "FLOAT",
+                "minValue": 0.05,
+                "maxValue": 0.8,
+                "step": 0.05
+            },    
+            {
+                "parameterName": "ccp_alpha",
+                "type": "FLOAT",
+                "minValue": 0.,
+                "maxValue": 5e-2,
+                "step": 5e-3
+            },
+            {
+                "parameterName": "min_weight_fraction_leaf",
+                "type": "FLOAT",
+                "minValue": 0.,
+                "maxValue": 0.1,
+                "step": 0.01
+            },   
+            {
+                "parameterName": "min_samples_leaf",
+                "type": "INTEGER",
+                "minValue": 1,
+                "maxValue": 10,
+                "step": 1
+            },           
+        ],
+        "sklearn.neural_network.MLPClassifier": [
+            # used to build hidden_layer_sizes parameter
+            {
+                "parameterName": "n_hidden_layer",
+                "type": "INTEGER",
+                "minValue": 1,
+                "maxValue": 4,
+                "step": 1
+            },
+            # used to build hidden_layer_sizes parameter
+            {
+                "parameterName": "hidden_layer_size",
+                "type": "INTEGER",
+                "minValue": 2,
+                "maxValue": 20,
+                "step": 1
+            },
+            {
+                "parameterName": "activation",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "logistic",
+                    "tanh",
+                    "relu",
+                ]
+            },
+            {
+                "parameterName": "learning_rate_init",
+               "type": "FLOAT",
+                "minValue": 1e-7,
+                "maxValue": 1e-1,
+                "log": True,
+            },
+            {
+                "parameterName": "learning_rate",
+                "type": "CATEGORICAL",
+                "categoricalValues": [
+                    "constant",
+                    "invscaling",
+                    "adaptive"
+                ]
+            },
+            {
+                "parameterName": "alpha",
+                "type": "FLOAT",
+                "minValue": 1e-7,
+                "maxValue": 1e1,
+                "log": True
+            },
+            {
+                "parameterName": "max_iter",
+                "type": "INTEGER",
+                "minValue": 200,
+                "maxValue": 1000,
+                "step": 100
+            },
+        ],
+    }
+}

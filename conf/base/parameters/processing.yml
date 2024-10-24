@@ -1,0 +1,7 @@
+fields:
+  sample_weight: null
+  outcome: "churn"
+  # Leave empty if you want to use default features in the dataset
+  covariates: "all"
+  # - feature1
+  # - feature2

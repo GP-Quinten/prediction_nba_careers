@@ -1,0 +1,116 @@
+# Here you can define all your data sets by using simple YAML syntax.
+#
+# Documentation for this file format can be found in "The Data Catalog"
+# Link: https://kedro.readthedocs.io/en/stable/data/data_catalog.html
+
+# Templates
+
+_line_json: &line_json
+  type: pandas.JSONDataSet
+  save_args:
+    orient: records
+    lines: True
+  load_args:
+    orient: records
+    lines: True
+
+# Data
+
+## Data Engineering
+
+train.final_dataset:
+  type: pandas.CSVDataSet
+  layer: model_input
+  filepath: data/01_model_input/demo/train.final_dataset.csv
+
+test.final_dataset:
+  type: pandas.CSVDataSet
+  layer: model_input
+  filepath: data/01_model_input/demo/test.final_dataset.csv
+
+inference.final_dataset:
+  type: pandas.CSVDataSet
+  layer: model_input
+  filepath: data/01_model_input/demo/inference.final_dataset.csv
+
+## Model training
+
+train.x:
+  type: pandas.CSVDataSet
+  layer: model_input
+  filepath: data/01_model_input/train.x.csv
+
+train.y_true:
+  type: pandas.CSVDataSet
+  layer: model_input
+  filepath: data/01_model_input/train.y_true.csv
+
+train.sample_weights:
+  type: pandas.CSVDataSet
+  layer: model_input
+  filepath: data/01_model_input/train.sample_weights.csv
+
+test.x:
+  type: pandas.CSVDataSet
+  layer: model_input
+  filepath: data/01_model_input/test.x.csv
+
+test.y_true:
+  type: pandas.CSVDataSet
+  layer: model_input
+  filepath: data/01_model_input/test.y_true.csv
+
+best_hyperparameters:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  layer: models
+  data_set:
+    filepath: data/01_model_input/best_hyperparameters.yaml
+    type: yaml.YAMLDataSet
+          
+trained_model:
+  type: pickle.PickleDataSet
+  layer: models
+  filepath: data/02_models/trained_model.pickle
+
+train.y_score:
+  type: pandas.CSVDataSet
+  layer: model_input
+  filepath: data/03_model_output/train.y_score.csv
+
+test.y_score:
+  type: pandas.CSVDataSet
+  layer: model_input
+  filepath: data/03_model_output/test.y_score.csv
+
+metrics:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  layer: model_output
+  data_set:
+    filepath: data/03_model_output/metrics.json
+    type: json.JSONDataSet
+
+explainer:
+  type: pickle.PickleDataSet
+  layer: reporting
+  filepath: data/04_reporting/explainer.pickle
+
+hp_tuning_plots:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  layer: reporting
+  data_set:
+    filepath: data/04_reporting/hp_tuning_plots
+    type: matplotlib.MatplotlibWriter
+
+metrics_plots:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  layer: reporting
+  data_set:
+    filepath: data/04_reporting/metrics_plots
+    type: matplotlib.MatplotlibWriter
+
+feature_importance_plots:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataSet
+  layer: reporting
+  data_set:
+    filepath: data/04_reporting/feature_importance_plots
+    type: matplotlib.MatplotlibWriter

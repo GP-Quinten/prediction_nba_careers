@@ -1,0 +1,23 @@
+# Storage
+storage_env: cloud
+cloud_storage: s3
+bucket_name: s3-common-dev20220705170301665500000003
+folder_name: qtracker_demo
+
+# Dataset balancing - to be updated according to the ratio of positive vs negative
+population_ratio_demi: 1
+population_ratio: 2
+population_ratio_double: 4
+
+# Classifier name - to be defined once here for both hyperparameters tuning and training with evaluation
+classifier_name: xgboost.XGBClassifier
+# classifier_name: lightgbm.LGBMClassifier
+# classifier_name: catboost.CatBoostClassifier
+# classifier_name: sklearn.ensemble.GradientBoostingClassifier
+# classifier_name: sklearn.ensemble.RandomForestClassifier
+# classifier_name: sklearn.tree.DecisionTreeClassifier
+# classifier_name: sklearn.neural_network.MLPClassifier
+
+# Hyperparameters tuning
+optimization_experiment_name: qtracker_demo
+mlflow_tracking_uri: sqlite:///mlruns/mlflow.db

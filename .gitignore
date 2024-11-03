@@ -18,8 +18,10 @@ mlruns/**
 !data/**/
 !logs/**/
 
-# except demo data
+# except demo data and raw data
 !data/01_model_input/demo/**
+!data/00_raw_data/**
+
 
 # catboost info folder
 catboost_info/**
